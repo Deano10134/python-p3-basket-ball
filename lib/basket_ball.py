@@ -182,3 +182,82 @@ def game_dict():
             ]
         }
     }
+
+def num_points_per_game(player):
+    game_data = game_dict()
+    for team in game_data.values():
+        for p in team["players"]:
+            if p["name"] == player:
+                return p["points_per_game"]
+    return None
+
+def player_age(player):
+    game_data = game_dict()
+    for team in game_data.values():
+        for p in team["players"]:
+            if p["name"] == player:
+                return p["age"]
+    return None
+
+def team_colors(team_name):
+    game_data = game_dict()
+    for team in game_data.values():
+        if team["team_name"] == team_name:
+            return team["colors"]
+    return None
+
+def team_names():
+    game_data = game_dict()
+    names = []
+    for team in game_data.values():
+        names.append(team["team_name"])
+    return names
+
+def player_numbers(team_name):
+    game_data = game_dict()
+    numbers = []
+    for team in game_data.values():
+        if team["team_name"] == team_name:
+            for p in team["players"]:
+                numbers.append(p["number"])
+    return numbers      
+
+def player_stats(player):
+    game_data = game_dict()
+    for team in game_data.values():
+        for p in team["players"]:
+            if p["name"] == player:
+                return p
+    return None
+
+def average_rebounds_by_shoe_brand():
+    game_data = game_dict()
+    brand_data = {}  # {brand: [total_rebounds, player_count]}
+    
+    for team in game_data.values():
+        for p in team["players"]:
+            brand = p["shoe_brand"]
+            if brand not in brand_data:
+                brand_data[brand] = [0, 0]
+            brand_data[brand][0] += p["rebounds_per_game"]
+            brand_data[brand][1] += 1
+    
+    # Calculate and print averages
+    for brand, (total, count) in brand_data.items():
+        average = total / count
+        print(f"{brand}:  {average:.2f}")
+
+# Additional practice
+
+def most_career_points():
+    game_data = game_dict()
+    max_points = 0
+    top_scorer = ""
+    
+    for team in game_data.values():
+        for p in team["players"]:
+            if p["career_points"] > max_points:
+                max_points = p["career_points"]
+                top_scorer = p["name"]
+    
+    return top_scorer, max_points
